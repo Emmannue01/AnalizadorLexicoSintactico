@@ -1,0 +1,38 @@
+package Dev;
+
+import java_cup.runtime.Symbol;
+
+parser code
+{:
+    private Symbol s;
+
+    public void syntax_error(Symbol s){
+        this.s = s;
+    }
+
+    public Symbol getS(){
+        return this.s;
+    }
+:};
+
+terminal Identificador, Parentesis_a, Parentesis_c, Begin, End, PuntoComa, Cadena, Signos, Procedure;
+
+
+non terminal INICIO, PROCEDIMIENTO, PARAMETROS, SENTENCIA, CUERPO, DECLARACIONES,TIPO;
+
+
+start with INICIO;
+
+INICIO ::= PROCEDIMIENTO;
+
+PROCEDIMIENTO ::= Procedure Identificador Parentesis_a PARAMETROS Parentesis_c PuntoComa Begin CUERPO End PuntoComa; //
+
+PARAMETROS ::=  | Identificador Cadena; 
+
+CUERPO ::=  | DECLARACIONES; 
+
+DECLARACIONES ::= SENTENCIA | SENTENCIA DECLARACIONES;
+
+SENTENCIA ::= Identificador Parentesis_a TIPO Identificador Identificador TIPO Parentesis_c PuntoComa;
+
+TIPO::= | Signos TIPO;
